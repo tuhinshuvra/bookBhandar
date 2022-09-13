@@ -88,30 +88,25 @@ const showBooks = (books) => {
 };
 
 const createCard = (book) => {
+  // console.log(book);
   const div = document.createElement("div");
   div.classList.add("card");
 
-  let overview = book.overview;
+  let overview = book.overview.slice(0, 60) + "...";
 
   div.innerHTML = `
   <div class="image-container">
-    <img
-      src="${book.Image}"
-      alt=""
-    />
+    <img src="${book.image}"  alt="" />
     <div class="button-container">
       <button onclick="addToWishlist('${book.id}')" class="button"><i class="fa-solid fa-heart"></i></button>
-      <button onclick="AddToCart" class="button">Add To Cart</button>
+      <button onclick="addToCart('${book.id}')" class="button">Add To Cart</button>
     </div>
   </div>
   <div class="info-container">
     <h1>${book.name}</h1>
-    <p>
-      ${overview}
-    </p>
+    <p> ${overview} </p>
   </div>
-
-`;
+  `;
 
   return div;
 };
@@ -140,10 +135,12 @@ const displayCart = () => {
 
 const displayWishlist = () => {
   const wishlist = getWishlistItems();
-  console.log(wishlist);
+  const wishListContainer = document.getElementById("wishlist");
+  wishListContainer.innerHTML = "";
+  // console.log(wishlist);
 
-  bookList.forEach((book) => {
+  wishlist.forEach((book) => {
     const div = createCard(book);
-    document.getElementById("wishlist").appendChild(div);
+    wishListContainer.appendChild(div);
   });
 };
